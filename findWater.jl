@@ -10,11 +10,11 @@ samples = imgsplit(img);
 features = getfeatures.(samples);
 
 # We will get some infos for the calibration dataset
-training = sample(1:length(samples), 30, replace=false);
+training = sample(eachindex(samples), 15, replace=false);
 
-labels = Array{String, 1}(length(training));
-for i in eachindex(training)
-  trial = samples[training[i]]
+labels = Array{String, 2}(size(samples));
+for i in training
+  trial = samples[i]
   imc, ims = imshow(trial)
   labels[i] = input()
   destroy(toplevel(imc))
@@ -24,11 +24,12 @@ for i in eachindex(training)
 end
 
 # Take a guess at every element
-guesses = Array{String, 2}(length(alongy), length(alongx));
+guesses = Array{String, 2}(size(samples));
 for i in eachindex(guesses)
   guesses[i] = classify(i, features, training, labels)
 end
-guesses = guesses';
+
+guesses
 
 for i in 1:size(guesses, 1)
   for j in 1:size(guesses, 2)
@@ -45,18 +46,3 @@ for i in 1:size(guesses, 1)
   end
   print("\n")
 end
-
-
-# Second picture
-
-imtest = load("./img/test.png");
-test = imgsplit(imtest);
-# Then we extract the features -- mean and median of every primary color
-ftest = getfeatures.(test);
-
-# Take a guess at every element
-guesstest = Array{String, 2}(length(alongy), length(alongx));
-for i in eachindex(guesses)
-  guesses[i] = classify(i, features, training, labels)
-end
-guesses = guesses';

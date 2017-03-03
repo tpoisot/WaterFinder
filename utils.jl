@@ -37,12 +37,11 @@ function input()
 end
 
 # Problem to classify
-function classify(i, f, t, l; k = 5)
-  pb = f[i]
+function classify(i, features, training, labels; k = 5)
   # We get the distances
-  dist = map(x -> distance(pb, x), f[t]);
+  dist = map(x -> distance(features[i], x), features[training]);
   # Labels of the closest neighbors
-  candidates = l[filter(x -> dist[x] <= sort(dist)[k], 1:length(dist))];
+  candidates = labels[training[filter(x -> dist[x] <= sort(dist)[k], 1:length(dist))]]
   # Return
   assignation = most_common(candidates);
   return assignation
