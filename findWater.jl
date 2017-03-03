@@ -10,7 +10,7 @@ samples = imgsplit(img);
 features = getfeatures.(samples);
 
 # We will get some infos for the calibration dataset
-training = sample(eachindex(samples), 15, replace=false);
+training = sample(eachindex(samples), 30, replace=false);
 
 labels = Array{String, 2}(size(samples));
 for i in training
@@ -28,8 +28,6 @@ guesses = Array{String, 2}(size(samples));
 for i in eachindex(guesses)
   guesses[i] = classify(i, features, training, labels)
 end
-
-guesses
 
 for i in 1:size(guesses, 1)
   for j in 1:size(guesses, 2)
