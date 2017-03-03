@@ -5,6 +5,7 @@ include("./utils.jl");
 
 img = load("./img/t1.png");
 samples = imgsplit(img);
+
 # Then we extract the features -- mean and median of every primary color
 features = getfeatures.(samples);
 

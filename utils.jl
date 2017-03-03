@@ -52,16 +52,15 @@ end
 function imgsplit(img; grids=50)
   imgsize = size(img);
   # Get the splits
-  alongx = 1:gridsize:imgsize[1]-gridsize;
-  alongy = 1:gridsize:imgsize[2]-gridsize;
+  x = 1:gridsize:imgsize[1]-gridsize;
+  y = 1:gridsize:imgsize[2]-gridsize;
 
   # Empty array to store the images
-  samples = Array{Any, 2}((length(alongx), length(alongy)))
-  for i in eachindex(alongx)
-    for j in eachindex(alongy)
+  samples = Array{Any, 2}((length(x), length(y)))
+  for i in eachindex(x)
+    for j in eachindex(y)
       # We extract the image and put it in an array
-      timg = img[x:x+gridsize, y:y+gridsize]
-      push!(samples, timg)
+      samples[i,j] = img[x[i]:x[i]+gridsize, y[j]:y[j]+gridsize]
     end
   end
   # Return
