@@ -7,21 +7,21 @@ Neighbors to guess the rest of the image. It will then output something like
 this:
 
 ~~~ raw
-w w w w w w w w w ~ ~ ~ ~ ~ @ ~
-w w w w w ~ ~ ~ @ ~ ~ @ w w w ~
-w w w w ~ ~ ~ ~ ~ ~ ~ ~ w w w w
-w w w ~ ~ ~ ~ ~ w ~ ~ @ w w w w
-~ w w w w w w w w w w w @ @ w w
-w w w w w w ~ ~ w w @ ~ w ~ ~ ~
-w w w w ~ ~ w @ w ~ @ @ ~ ~ ~ ~
-w ~ ~ ~ ~ @ w w w w w @ ~ ~ ~ ~
-w ~ ~ @ @ w w w w w ~ ~ ~ ~ ~ ~
+w w w w w w w w w ~ ~ @ ~ ~ @ ~
+w w w w w ~ @ ~ w ~ ~ w w w w @
+w w w w ~ ~ ~ ~ ~ ~ ~ @ w w w w
+w w w ~ ~ @ ~ @ w @ ~ w w w w w
+@ w w w w w w w w w w w w w w w
+w w w w w w @ @ w w w @ w @ @ @
+w w w w @ @ w w w @ w w @ @ ~ ~
+w @ @ @ @ w w w w w w w @ ~ ~ ~
+w @ @ w w w w w w w ~ ~ ~ ~ ~ ~
 w w w w w w w w ~ ~ ~ ~ ~ ~ ~ ~
-w w w w w @ ~ ~ ~ ~ ~ ~ ~ ~ ~ w
+w w w w w w ~ ~ ~ ~ ~ ~ ~ @ @ w
 w w w w ~ ~ ~ ~ ~ ~ ~ ~ @ w w w
-w w ~ ~ ~ ~ ~ ~ ~ ~ @ w w w w w
-~ ~ ~ ~ ~ ~ ~ ~ ~ w w w w w w @
-~ ~ ~ ~ ~ ~ @ w w w w w w w @ @
+w w ~ ~ ~ ~ ~ ~ ~ @ w w w w w w
+~ ~ ~ ~ ~ ~ ~ ~ @ w w w w w w w
+~ ~ ~ ~ ~ @ w w w w w w w w w @
 ~~~
 
 Which is the output of running it on this picture:
