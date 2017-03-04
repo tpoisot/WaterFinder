@@ -3,7 +3,10 @@ function getfeatures(grid)
   r = map((x) -> x.r, grid)
   g = map((x) -> x.g, grid)
   b = map((x) -> x.b, grid)
-  return vec([mean(r), mean(g), mean(b), median(r), median(g), median(b)])
+  return vec([
+    mean(r), mean(g), mean(b),
+    median(r), median(g), median(b),
+    var(r), var(g), var(b)])
 end
 
 # Most common elements
