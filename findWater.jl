@@ -10,23 +10,37 @@ samples = imgsplit(img);
 features = getfeatures.(samples);
 
 # We will get some infos for the calibration dataset
-training = sample(eachindex(samples), 30, replace=false);
+training_candidates = sample(eachindex(samples), length(eachindex(samples)), replace=false);
 
-labels = Array{String, 2}(size(samples));
-for i in training
+traing_size = 20;
+labels = Array{String, 1}(traing_size);
+positions = Array{Int64, 1}(traing_size);
+labelcounter = 1;
+candicounter = 1;
+while labelcounter <= traing_size
+  i = training_candidates[candicounter]
+  candicounter += 1
   trial = samples[i]
   imc, ims = imshow(trial)
-  labels[i] = input()
+  userinput = input()
   destroy(toplevel(imc))
-  if labels[i] == "STOP"
+  if userinput == "STOP"
     break
+  elseif userinput == "SKIP"
+    next
+  else
+    labels[labelcounter] = userinput
+    positions[labelcounter] = i
+    labelcounter += 1
   end
 end
+
+training_set = features[positions]
 
 # Take a guess at every element
 guesses = Array{String, 2}(size(samples));
 for i in eachindex(guesses)
-  guesses[i] = classify(i, features, training, labels)
+  guesses[i] = classify(i, features, training_set, labels, k=4)
 end
 
 for i in 1:size(guesses, 1)

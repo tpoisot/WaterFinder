@@ -39,9 +39,9 @@ end
 # Problem to classify
 function classify(i, features, training, labels; k = 5)
   # We get the distances
-  dist = map(x -> distance(features[i], x), features[training]);
+  dist = map(x -> distance(features[i], x), training);
   # Labels of the closest neighbors
-  candidates = labels[training[filter(x -> dist[x] <= sort(dist)[k], 1:length(dist))]]
+  candidates = labels[filter(x -> dist[x] <= sort(dist)[k], 1:length(dist))]
   # Return
   assignation = most_common(candidates);
   return assignation
