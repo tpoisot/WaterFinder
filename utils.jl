@@ -48,7 +48,7 @@ function classify(i, features, training, labels; k = 5)
 end
 
 # Split an image
-function imgsplit(img; grids=50)
+function imgsplit(img; gridsize=50)
   imgsize = size(img);
   # Get the splits
   x = 1:gridsize:imgsize[1]-gridsize;
