@@ -6,32 +6,33 @@ function getfeatures(grid)
   return vec([
     mean(r), mean(g), mean(b),
     median(r), median(g), median(b),
-    var(r), var(g), var(b)])
+    var(r), var(g), var(b)
+  ])
 end
 
 # Most common elements
 function most_common(x::Array)
-    # NOTE this is ugly but it works
-    c = unique(x)
-    f = zeros(Int64, length(c))
-    for t in x
-        for u in 1:length(c)
-            if t == c[u]
-                f[u] = f[u]+1
-            end
-        end
+  # NOTE this is ugly but it works
+  c = unique(x)
+  f = zeros(Int64, length(c))
+  for t in x
+    for u in 1:length(c)
+      if t == c[u]
+        f[u] = f[u]+1
+      end
     end
-    # Return
-    for i in 1:length(c)
-        if f[i] == maximum(f)
-            return c[i]
-        end
+  end
+  # Return
+  for i in 1:length(c)
+    if f[i] == maximum(f)
+      return c[i]
     end
+  end
 end
 
 # Euclidean distance
 function distance(x, y)
-    return sqrt(sum((x .- y).^2.0))
+  return sqrt(sum((x .- y).^2.0))
 end
 
 # Read input
