@@ -6,24 +6,22 @@ using Colors;
 include("./utils.jl");
 
 img = load("./img/train.png");
-samples = imgsplit(img, gridsize=25);
+tgsize = 25;
 
-# Then we extract the features -- mean and median of every primary color
-features = getfeatures.(samples);
-
-# We will get some infos for the calibration dataset
-training_candidates = sample(eachindex(samples), length(eachindex(samples)), replace=false);
-
-traing_size = 90;
-labels = Array{String, 1}(traing_size);
-positions = Array{Int64, 1}(traing_size);
+training_size = 90;
+labels = Array{String, 1}(training_size);
+positions = Array{Int64, 1}(training_size);
+training_set = Vector{Array{Float64,1}}(training_size)
 labelcounter = 1;
 candicounter = 1;
-while labelcounter <= traing_size
-  i = training_candidates[candicounter]
+while labelcounter <= training_size
   candicounter += 1
-  trial = samples[i]
-  imc, ims = imshow(trial)
+	fx, fy = size(img).-(3*tgsize, 3*tgsize)
+	tx = sample((2*tgsize):fx)
+	ty = sample((2*tgsize):fy)
+  trial = img[(tx-2*tgsize):(tx+3*tgsize),(ty-2*tgsize):(ty+3*tgsize)]
+  guidict = imshow(trial)
+	annotate!(guidict, AnnotationBox(2*tgsize, 2*tgsize, 3*tgsize, 3*tgsize, linewidth=2))
   userinput = input()
   #destroy(toplevel(imc))
   ImageView.closeall()
@@ -33,17 +31,16 @@ while labelcounter <= traing_size
     next
   else
     labels[labelcounter] = userinput
-    positions[labelcounter] = i
+    positions[labelcounter] = candicounter
+		training_set[candicounter] = getfeatures(trial[(2*tgsize:3*tgsize),(2*tgsize:3*tgsize)])
     labelcounter += 1
   end
 end
 
-training_set = features[positions];
-
 # Take a guess at every element in the other image
 
 img2 = load("./img/test.png");
-gsize = 6;
+gsize = 5;
 samples2 = imgsplit(img2, gridsize=gsize);
 # Then we extract the features -- mean and median of every primary color
 features2 = getfeatures.(samples2);
@@ -65,7 +62,7 @@ begin
     for j in 1:size(guesses,2)
       xinit = (i-1)*gsize
       yinit = (j-1)*gsize
-      setopacity(0.7)
+      setopacity(0.6)
       sethue(colorant"#999")
       if guesses[i,j] == "W"
         sethue("blue")
