@@ -43,7 +43,7 @@ training_set = features[positions];
 # Take a guess at every element in the other image
 
 img2 = load("./img/test.png");
-gsize = 20;
+gsize = 6;
 samples2 = imgsplit(img2, gridsize=gsize);
 # Then we extract the features -- mean and median of every primary color
 features2 = getfeatures.(samples2);
@@ -65,7 +65,7 @@ begin
     for j in 1:size(guesses,2)
       xinit = (i-1)*gsize
       yinit = (j-1)*gsize
-      setopacity(0.3)
+      setopacity(0.7)
       sethue(colorant"#999")
       if guesses[i,j] == "W"
         sethue("blue")
@@ -87,20 +87,4 @@ begin
   end
   finish()
   preview()
-end
-
-
-for i in 1:size(guesses, 1)
-  for j in 1:size(guesses, 2)
-    if guesses[i,j][1] == 'W'
-      print_with_color(:blue, "~")
-    elseif guesses[i,j][1] == 'F'
-      print_with_color(:green, "▒")
-    elseif guesses[i,j][1] == 'R'
-      print_with_color(:red, "█")
-    else
-      print("-")
-    end
-  end
-  print("\n")
 end
