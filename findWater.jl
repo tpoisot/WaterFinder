@@ -8,7 +8,7 @@ include("./utils.jl");
 img = load("./img/train.png");
 tgsize = 25;
 
-training_size = 90;
+training_size = 50;
 labels = Array{String, 1}(training_size);
 positions = Array{Int64, 1}(training_size);
 training_set = Vector{Array{Float64,1}}(training_size)
@@ -32,7 +32,7 @@ while labelcounter <= training_size
   else
     labels[labelcounter] = userinput
     positions[labelcounter] = candicounter
-		training_set[candicounter] = getfeatures(trial[(2*tgsize:3*tgsize),(2*tgsize:3*tgsize)])
+		training_set[labelcounter] = getfeatures(trial[(2*tgsize:3*tgsize),(2*tgsize:3*tgsize)])
     labelcounter += 1
   end
 end
@@ -40,7 +40,7 @@ end
 # Take a guess at every element in the other image
 
 img2 = load("./img/test.png");
-gsize = 5;
+gsize = 10;
 samples2 = imgsplit(img2, gridsize=gsize);
 # Then we extract the features -- mean and median of every primary color
 features2 = getfeatures.(samples2);
