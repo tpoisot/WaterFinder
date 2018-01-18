@@ -1,31 +1,33 @@
 # Step 2
 
-D = zeros(Float64, size(guesses))
+D = zeros(Float64, size(C))
 for i in eachindex(D)
-	if guesses[i] == "F"
-		D[i] = 8.0
-	end
-	if guesses[i] == "W"
-		D[i] = 0.001
-	end
-	if guesses[i] == "N"
-		D[i] = 3.0
-	end
-	if guesses[i] == "U"
-		D[i] = 0.01
-	end
-	if guesses[i] == "R"
-		D[i] = 0.001
+	if C[i] > 0
+		if L[C[i]] == "F"
+			D[i] = 8.0
+		end
+		if L[C[i]] == "W"
+			D[i] = 0.1
+		end
+		if L[C[i]] == "N"
+			D[i] = 3.0
+		end
+		if L[C[i]] == "U"
+			D[i] = 0.001
+		end
+		if L[C[i]] == "R"
+			D[i] = 0.001
+		end
 	end
 end
 
 V = zeros(Int64, size(D))
-for re in 1:2000
+for re in 1:50
 	#x, y = sample(1:size(V,1)), sample(1:size(V,2))
 	x, y, = 1, 1
 	xD = copy(D)
 	xV = zeros(Int64, size(D))
-	for i in 1:5000
+	for i in 1:300000
 		xV[x,y] = xV[x,y]+1
 		xD[x,y] = xD[x,y]*0.5
 		xf, xt = x-1, x+1
@@ -36,14 +38,14 @@ for re in 1:2000
 		keep = sample(eachindex(tD), weights(vec(tD)))
 		ni = ind2sub(tD, keep)
 		x, y = xand[ni[1]], yand[ni[2]]
-		if ((100 < x < 120) & (165 < y < 185))
+		#=if ((1000 < x < 1200) & (1650 < y < 1850))
 			V = V .+ xV
 			info("#$re\thit after $i")
 			break
-		end
+		end=#
 	end
+	V = V .+ xV
 end
-# TODO convert index to tuple
 
 V = V ./maximum(V);
 
@@ -55,14 +57,14 @@ begin
 	Drawing(w, h, "sim.png")
 	origin()
 	placeimage(bg, -w/2, -h/2)
-	for i in 1:size(guesses,1)
-		for j in 1:size(guesses,2)
-			xinit = (i-1)*gsize
-			yinit = (j-1)*gsize
+	for i in 1:size(D,1)
+		for j in 1:size(D,2)
+			xinit = (i-1)
+			yinit = (j-1)
 			op = V[i,j] == 0.0 ? 0.0 : 0.8
 			setopacity(op)
 			sethue(V[i,j], 0.5, 1-V[i,j])
-			rect(yinit-w/2, xinit-h/2, gsize, gsize, :fill)
+			rect(yinit-w/2, xinit-h/2, 1, 1, :fill)
 		end
 	end
 	# NOTE the position is wrong
