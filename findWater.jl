@@ -2,6 +2,7 @@ using ImageView, Images, FileIO;
 using StatsBase;
 using Luxor;
 using Colors;
+using Plots;
 
 include("./utils.jl");
 
@@ -46,8 +47,8 @@ gsize = 10;
 L = unique(labels)
 cons = Dict([x => zeros(Float64, size(img2)) for x in L])
 cons["STD"] = zeros(Float64, size(img2))
-for i in 1:5:(size(img2,1)-gsize)
-  for j in 1:5:(size(img2,2)-gsize)
+for i in 1:2:(size(img2,1)-gsize)
+  for j in 1:2:(size(img2,2)-gsize)
     sp = img2[i:(i+gsize-1),j:(j+gsize-1)]
     sf = getfeatures(sp)
     cl = classify(1, [sf], training_set, labels, k=3)
@@ -82,23 +83,20 @@ begin
     for j in 1:size(C,2)
       xinit = (i-1)
       yinit = (j-1)
-      setopacity(0.3)
+      setopacity(0.4)
       sethue(colorant"#999")
       if C[i,j] > 0
         if L[C[i,j]] == "W"
           sethue("blue")
         end
-        if L[C[i,j]] == "R"
-          sethue("red")
-        end
         if L[C[i,j]] == "F"
           sethue("green")
         end
         if L[C[i,j]] == "U"
-          sethue("black")
+          sethue("red")
         end
         if L[C[i,j]] == "N"
-          sethue("orange")
+          sethue("purple")
         end
         rect(yinit-w/2, xinit-h/2, 1, 1, :fill)
       end

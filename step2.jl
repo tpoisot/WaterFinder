@@ -7,15 +7,12 @@ for i in eachindex(D)
 			D[i] = 8.0
 		end
 		if L[C[i]] == "W"
-			D[i] = 0.1
+			D[i] = 0.75
 		end
 		if L[C[i]] == "N"
 			D[i] = 3.0
 		end
 		if L[C[i]] == "U"
-			D[i] = 0.001
-		end
-		if L[C[i]] == "R"
 			D[i] = 0.001
 		end
 	end
@@ -61,9 +58,9 @@ begin
 		for j in 1:size(D,2)
 			xinit = (i-1)
 			yinit = (j-1)
-			op = V[i,j] == 0.0 ? 0.0 : 0.8
+			op = V[i,j] == 0.0 ? 0.0 : 0.9
 			setopacity(op)
-			sethue(V[i,j], 0.5, 1-V[i,j])
+			sethue(V[i,j], 0.5, 0.7)
 			rect(yinit-w/2, xinit-h/2, 1, 1, :fill)
 		end
 	end
