@@ -6,19 +6,18 @@ using Plots;
 
 include("./utils.jl");
 
-img = load("./img/train.png");
+img = load("./img/test.png");
 imshow(img)
 tgsize = 25;
 span = convert(Int64, floor(tgsize/2));
 
 labels = Dict()
 
-# TODO find a way to clik on the image
-labels["forest"] = [(207,442),(455,479),(237,940),(187,279),(126,355),(190,767),(483,463),(635,795)]
-labels["water"] = [(153, 13), (374,1035),(457,1033),(262,1022),(275,499),(168,578),(621,907)]
-labels["road"] = [(383,486),(413,821),(484,791),(539,46),(330,901),(175,1038),(335,360)]
-labels["field"] = [(478,817),(507,860),(603,116),(13,216),(508,906)]
-labels["urban"] = [(306,179),(211,1019),(473,878),(403,507),(215,133),(142,195)]
+# TODO find a way to click on the image
+labels["forest"] = [(190,1350),(406,928),(1118,1177),(125,1861),(690,2051),(246,1814),(963,1944)]
+labels["water"] = [(877,822),(930,1822),(1108,700),(71,355),(55,520),(338,1065),(603,815),(912,1866),(874,1649)]
+labels["built"] = [(402,1357),(494,586),(332,1813),(242,1031),(141,1600),(920,196),(702,121),(615,1134),(751,1489),(686,1657),(930,1994),(1097,1974),(654,186),(309,1761)]
+labels["field"] = [(430,1661),(601,1367),(834,454),(101,972),(71,1956),(982,222)]
 
 training = Array{Tuple,1}()
 for (k, v) in labels
@@ -39,8 +38,8 @@ gsize = 10;
 L = unique(map(x -> x[2], training))
 cons = Dict([x => zeros(Float64, size(img2)) for x in L])
 cons["STD"] = zeros(Float64, size(img2))
-for i in 1:5:(size(img2,1)-gsize)
-  for j in 1:5:(size(img2,2)-gsize)
+for i in 1:1:(size(img2,1)-gsize)
+  for j in 1:1:(size(img2,2)-gsize)
     sp = img2[i:(i+gsize-1),j:(j+gsize-1)]
     sf = getfeatures(sp)
     cl = knn(sf, training; k=3)
@@ -84,14 +83,11 @@ begin
         if L[C[i,j]] == "forest"
           sethue("green")
         end
-        if L[C[i,j]] == "urban"
+        if L[C[i,j]] == "built"
           sethue("red")
         end
         if L[C[i,j]] == "field"
           sethue("purple")
-        end
-        if L[C[i,j]] == "road"
-          sethue("orange")
         end
         rect(yinit-w/2, xinit-h/2, 1, 1, :fill)
       end
