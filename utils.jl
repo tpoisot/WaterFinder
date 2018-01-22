@@ -35,37 +35,14 @@ function distance(x, y)
   return sqrt(sum((x .- y).^2.0))
 end
 
-# Read input
-function input()
-  return chomp(readline())
-end
-
 # Problem to classify
-function classify(i, features, training, labels; k = 5)
+function knn(instance, training; k = 5)
   # We get the distances
-  dist = map(x -> distance(features[i], x), training);
+  labels = map(x -> x[2], training)
+  dist = map(x -> distance(instance, x[1]), training)
   # Labels of the closest neighbors
   candidates = labels[filter(x -> dist[x] <= sort(dist)[k], 1:length(dist))]
   # Return
   assignation = most_common(candidates);
   return assignation
-end
-
-# Split an image
-function imgsplit(img; gridsize=50)
-  imgsize = size(img);
-  # Get the splits
-  x = 1:gridsize:imgsize[1]-gridsize;
-  y = 1:gridsize:imgsize[2]-gridsize;
-
-  # Empty array to store the images
-  samples = Array{Any, 2}((length(x), length(y)))
-  for i in eachindex(x)
-    for j in eachindex(y)
-      # We extract the image and put it in an array
-      samples[i,j] = img[x[i]:x[i]+gridsize, y[j]:y[j]+gridsize]
-    end
-  end
-  # Return
-  return samples
 end
