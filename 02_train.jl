@@ -1,42 +1,15 @@
-using ImageView, Images, FileIO;
-using StatsBase;
-using Luxor;
-using Colors;
-using Plots;
-
-include("./utils.jl");
-
-img = load("./img/train.png");
-tgsize = 25;
-
-training_size = 50;
-labels = Array{String, 1}(training_size);
-positions = Array{Int64, 1}(training_size);
-training_set = Vector{Array{Float64,1}}(training_size)
-labelcounter = 1;
-candicounter = 1;
-while labelcounter <= training_size
-  candicounter += 1
-	fx, fy = size(img).-(3*tgsize, 3*tgsize)
-	tx = sample((2*tgsize):fx)
-	ty = sample((2*tgsize):fy)
-  trial = img[(tx-2*tgsize):(tx+3*tgsize),(ty-2*tgsize):(ty+3*tgsize)]
-  guidict = imshow(trial)
-	annotate!(guidict, AnnotationBox(2*tgsize, 2*tgsize, 3*tgsize, 3*tgsize, linewidth=2))
-  userinput = input()
-  #destroy(toplevel(imc))
-  ImageView.closeall()
-  if userinput == "STOP"
-    break
-  elseif userinput == "SKIP"
-    next
-  else
-    labels[labelcounter] = userinput
-    positions[labelcounter] = candicounter
-		training_set[labelcounter] = getfeatures(trial[(2*tgsize:3*tgsize),(2*tgsize:3*tgsize)])
-    labelcounter += 1
-  end
+# Function to get the features for each grid
+function getfeatures(grid)
+  r = map((x) -> x.r, grid)
+  g = map((x) -> x.g, grid)
+  b = map((x) -> x.b, grid)
+  return vec([
+    mean(r), mean(g), mean(b),
+    median(r), median(g), median(b),
+    var(r), var(g), var(b)
+  ])
 end
+
 
 # Take a guess at every element in the other image
 
