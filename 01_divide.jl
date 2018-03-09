@@ -4,7 +4,7 @@ using Luxor;
 using Colors;
 using Plots;
 
-img = load("./img/train.png");
+img = load("./img/landscape.png");
 tgsize = 35;
 
 training_size = 200;
